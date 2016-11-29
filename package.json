@@ -1,0 +1,30 @@
+{
+  "name": "slavunya.js",
+  "version": "0.1.0",
+  "description": "JavaScript library",
+  "main": "Gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/finagin/Slavunya.js.git"
+  },
+  "keywords": [
+    "JS",
+    "JavaScript"
+  ],
+  "author": "Igor Finagin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/finagin/Slavunya.js/issues"
+  },
+  "homepage": "https://github.com/finagin/Slavunya.js#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-rimraf": "^0.2.1",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-uglify": "^2.0.0"
+  }
+}
