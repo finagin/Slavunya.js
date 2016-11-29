@@ -1,5 +1,6 @@
 # Slavunya.js
 
+* [Install](#install)
 * Usage
     * [regExp](#slavunyaregexptype-teststring)
     * [getRGB](#slavunyagetrgbcolor)
@@ -11,7 +12,15 @@
         * [declination](#slavunyamathnumberdeclinationwords)
     * [urlParams](#slavunyaurlparamsname)
 
+## Install
+```html
+<body>
+    <div class="content">...</div>
 
+    <script src="//cdn.rawgit.com/finagin/Slavunya.js/master/dist/Slavunya.min.js"></script>
+    <script src="/main.min.js"></script>
+</body>
+```
 ## Usage
 ### Slavunya.regExp(type, [testString])
 ```js
