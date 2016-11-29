@@ -51,7 +51,7 @@
 
 
                 if (testString) {
-                    for (regExp in regExps) {
+                    for (regExp in regExps[type]) {
                         if (result = testString.match(regExps[type][regExp])) {
                             return result;
                         }
@@ -159,49 +159,50 @@
 
 
         this.__defineGetter__("math", function () {
+            var math = this.math;
+            
             return function (number) {
-                var math = this.math,
-                    fn   = {
-                        "in": function (array) {
-                            var arr;
+                var fn = {
+                    "in": function (array) {
+                        var arr;
 
-                            if (Array.isArray(array)) {
-                                arr = array;
-                            } else {
-                                arr = Array.from(arguments);
-                            }
-
-                            return arr.indexOf(number) !== -1;
-                        },
-
-                        "between": function (a, b) {
-                            return a < number && number < b;
-                        },
-
-                        "right": function (right) {
-                            var e = Math.pow(10, right || 1),
-                                res;
-
-                            res = number / e;
-                            res = res - Math.floor(res);
-                            res *= e;
-
-                            return Math.round(res);
-                        },
-
-                        "declination": function (words) {
-                            var a = this.right(1),
-                                b = this.right(2);
-
-                            if (a == 1 && !math(b).between(10, 20)) {
-                                return words[0];
-                            } else if (math(a).in(2, 3, 4) && !math(b).between(10, 20)) {
-                                return words[1];
-                            } else {
-                                return words[2];
-                            }
+                        if (Array.isArray(array)) {
+                            arr = array;
+                        } else {
+                            arr = Array.from(arguments);
                         }
-                    };
+
+                        return arr.indexOf(number) !== -1;
+                    },
+
+                    "between": function (a, b) {
+                        return a < number && number < b;
+                    },
+
+                    "right": function (right) {
+                        var e = Math.pow(10, right || 1),
+                            res;
+
+                        res = number / e;
+                        res = res - Math.floor(res);
+                        res *= e;
+
+                        return Math.round(res);
+                    },
+
+                    "declination": function (words) {
+                        var a = this.right(1),
+                            b = this.right(2);
+
+                        if (a == 1 && !math(b).between(10, 20)) {
+                            return words[0];
+                        } else if (math(a).in(2, 3, 4) && !math(b).between(10, 20)) {
+                            return words[1];
+                        } else {
+                            return words[2];
+                        }
+                    }
+                };
 
                 return fn;
             }

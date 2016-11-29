@@ -13,6 +13,7 @@
     * [urlParams](#slavunyaurlparamsname)
 
 ## Install
+Add script ```//cdn.rawgit.com/finagin/Slavunya.js/master/dist/Slavunya.min.js``` to your code
 ```html
 <body>
     <div class="content">...</div>
