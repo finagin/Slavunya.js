@@ -1,168 +1,53 @@
 ;(function (window, document, undefined) {
+    function Slavunya() {
+        var Cookies = new function Cookies() {
+                this.__proto__ = {
+                    __init: function () {
+                        var ca = document.cookie.split(';'),
+                            re = /^[\s]*([^\s]+?)$/i,
+                            i, l;
 
-    "use strict";
-
-    window.Slavunya = new function Slavunya() {
-
-        /**
-         * Private variables
-         */
-        var cookies = {};
-
-
-        /**
-         * Adding external tools
-         *
-         * @name initTool
-         *
-         * @param {string} name - Tool name
-         * @param generator {function} - Generator function, must return function
-         *
-         * @returns Slavunya
-         */
-        this.__defineGetter__("initTool", function () {
-            var self = this;
-
-            function initTool(name, generator) {
-                self.__defineGetter__.apply(self, arguments);
-
-                return self;
-            }
-
-            return initTool;
-        });
-
-
-        this.__defineGetter__("regExp", function () {
-
-            var regExps = {
-                phone: [
-                    /^((?:\+7|8)\s*(?:\((\d{3})\)|(\d{3})))?\s*(\d{3}[\s-]?\d{2}[\s-]?\d{2})$/
-                ]
-            };
-
-            function regExp(type, testString) {
-
-                var regExp, result = undefined;
-
-                if (!type || !regExps[type]) {
-                    return result;
-                }
-
-
-                if (testString) {
-                    for (regExp in regExps[type]) {
-                        if (result = testString.match(regExps[type][regExp])) {
-                            return result;
+                        for (i = 0, l = ca.length; i < l; i++) {
+                            var c = ca[i].split('=');
+                            if (c.length == 2) {
+                                this[c[0].match(re)[1]] = unescape(c[1].match(re) ? c[1].match(re)[1] : '');
+                            }
                         }
+                    },
+                    __get:  function (name) {
+                        this.__init();
+                        return name ? this[name] || null : this;
+                    },
+                    __set:  function (name, value, days, secure) {
+                        var expires,
+                            domain,
+                            locProtocol;
+
+                        expires = '';
+                        if (days) {
+                            var date = new Date();
+                            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1e3));
+                            expires = '; expires=' + date.toGMTString();
+                        }
+                        domain      = window.location.hostname;
+                        locProtocol = window.location.protocol;
+
+                        document.cookie = (''
+                            + name + '=' + escape(value)
+                            + expires
+                            + '; path=/' + (domain ? '; domain=.' + domain : '') + (secure && locProtocol == 'https:' ? '; secure' : '')
+                        );
                     }
-                    return undefined;
+                };
+            },
+            Math    = function Math(number) {
+                if (!(this instanceof Math)) {
+                    return new Math(number);
                 }
 
+                var number = number;
 
-                return regExps[type];
-
-            }
-
-            return regExp;
-
-        });
-
-        this.__defineGetter__("getRGB", function () {
-
-            function getRGB(color) {
-                var result;
-
-                if (color && isArray(color) && color.length == 3) {
-                    return color;
-                }
-
-                if (result = /rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(color)) {
-                    return [
-                        parseInt(result[1]),
-                        parseInt(result[2]),
-                        parseInt(result[3])
-                    ];
-                }
-
-                if (result = /rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(color)) {
-                    return [
-                        parseFloat(result[1]) * 2.55,
-                        parseFloat(result[2]) * 2.55,
-                        parseFloat(result[3]) * 2.55
-                    ];
-                }
-
-                if (result = /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/.exec(color)) {
-                    return [
-                        parseInt(result[1], 16),
-                        parseInt(result[2], 16),
-                        parseInt(result[3], 16)
-                    ];
-                }
-                if (result = /#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/.exec(color)) {
-                    return [
-                        parseInt(result[1] + result[1], 16),
-                        parseInt(result[2] + result[2], 16),
-                        parseInt(result[3] + result[3], 16)
-                    ];
-                }
-            }
-
-            return getRGB;
-
-        });
-
-        this.__defineGetter__("cookies", function () {
-
-            function parseCookies() {
-                cookies = {};
-                var ca  = document.cookie.split(";");
-                var re  = /^[\s]*([^\s]+?)$/i;
-                for (var i = 0, l = ca.length; i < l; i++) {
-                    var c = ca[i].split("=");
-                    if (c.length == 2) {
-                        cookies[c[0].match(re)[1]] = unescape(c[1].match(re) ? c[1].match(re)[1] : "");
-                    }
-                }
-            }
-
-            function cookies(name, value, days, secure) {
-
-                var expires,
-                    domain;
-
-                if (!value) {
-                    parseCookies();
-
-                    return name ? cookies[name] : cookies;
-                }
-
-                expires = "";
-                if (days) {
-                    var date = new Date();
-                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1e3));
-                    expires = "; expires=" + date.toGMTString();
-                }
-                domain          = window.location.hostname;
-                document.cookie = (""
-                    + name + "=" + escape(value)
-                    + expires
-                    + "; path=/" + (domain ? "; domain=." + domain : "") + ((secure && locProtocol == "https:") ? "; secure" : "")
-                );
-
-            }
-
-            return cookies;
-
-        });
-
-
-        this.__defineGetter__("math", function () {
-            var math = this.math;
-            
-            return function (number) {
-                var fn = {
+                this.__proto__ = {
                     "in": function (array) {
                         var arr;
 
@@ -180,67 +65,125 @@
                     },
 
                     "right": function (right) {
-                        var e = Math.pow(10, right || 1),
+                        var wMath = window.Math,
+                            e     = wMath.pow(10, right || 1),
                             res;
 
                         res = number / e;
-                        res = res - Math.floor(res);
+                        res = res - wMath.floor(res);
                         res *= e;
 
-                        return Math.round(res);
+                        return wMath.round(res);
                     },
 
                     "declination": function (words) {
                         var a = this.right(1),
                             b = this.right(2);
 
-                        if (a == 1 && !math(b).between(10, 20)) {
+                        if (a == 1 && !Math(b).between(10, 20)) {
                             return words[0];
-                        } else if (math(a).in(2, 3, 4) && !math(b).between(10, 20)) {
+                        } else if (Math(a).in(2, 3, 4) && !Math(b).between(10, 20)) {
                             return words[1];
                         } else {
                             return words[2];
                         }
                     }
-                };
+                }
+            };
+        
+        this.__proto__ = {
+            cookie: function (name, value, days, secure) {
+                return Cookies["__" + (value !== undefined ? "set" : "get")].apply(Cookies, arguments);
+            },
 
-                return fn;
-            }
-        });
+            math: Math,
 
+            urlParams: function (name) {
+                var res      = {},
+                    loc      = location.href,
+                    startPos = loc.indexOf('?') != -1 ? loc.indexOf('?') : loc.indexOf('#') != -1 ? loc.indexOf('#') : false;
 
-        /**
-         * Get url Search and Hash params
-         *
-         * @name urlParams
-         *
-         * @param {string} [name] - Parameter name
-         *
-         * @returns {string|boolean|number|object} - Parameter by name or object of all parameters
-         */
-        this.__defineGetter__("urlParams", function () {
+                if (startPos !== false) {
+                    loc
+                        .slice(startPos + 1)
+                        .replace(/[?#]/, "&")
+                        .split("&")
+                        .forEach(function (elem) {
+                            elem = elem.split("=");
 
-            function urlParams(name) {
-                var res = {},
-                    loc = location.href;
-
-                loc
-                    .slice(loc.indexOf("?") + 1)
-                    .replace(/[?#]/, "&")
-                    .split("&")
-                    .forEach(function (elem) {
-                        elem = elem.split("=");
-
-                        res[elem[0]] = elem[1] || true;
-                    });
+                            res[elem[0]] = elem[1] || true;
+                        });
+                }
 
                 return name ? res[name] || null : res;
+            },
+
+            defaults: function (obj, def) {
+                function req(obj, def) {
+                    for (var key in def) {
+                        if (obj[key]) {
+                            req(obj[key], def[key]);
+                        } else {
+                            obj[key] = def[key];
+                        }
+                    }
+                }
+
+                req(obj, def);
+
+                return obj;
+            },
+
+            getRGB: function (color) {
+                var result,
+                    returns = {
+                        "rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)": function (result) {
+                            return [
+                                parseInt(result[1]),
+                                parseInt(result[2]),
+                                parseInt(result[3])
+                            ];
+                        },
+
+                        "rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)": function (result) {
+                            return [
+                                parseFloat(result[1]) * 2.55,
+                                parseFloat(result[2]) * 2.55,
+                                parseFloat(result[3]) * 2.55
+                            ];
+                        },
+
+                        "#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})": function (result) {
+                            return [
+                                parseInt(result[1], 16),
+                                parseInt(result[2], 16),
+                                parseInt(result[3], 16)
+                            ];
+                        },
+
+                        "#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])": function (result) {
+                            return [
+                                parseInt(result[1] + result[1], 16),
+                                parseInt(result[2] + result[2], 16),
+                                parseInt(result[3] + result[3], 16)
+                            ];
+                        }
+                    },
+                    regExp;
+
+                if (color && Array.isArray(color) && color.length == 3) {
+                    return color;
+                }
+
+
+                for (regExp in returns) {
+                    if (result = new RegExp(regExp).exec(color)) {
+                        return returns[regExp](result);
+                    }
+                }
             }
+        };
+    }
 
-            return urlParams;
-
-        });
-
-    };
-
+    window.Slavunya = new Slavunya;
 })(window, document, undefined);
