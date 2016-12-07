@@ -190,10 +190,10 @@
             },
 
             get debug() {
-                return debug;
-            },
-            set debug(val) {
-                debug = !!val;
+                if (!debug) {
+                    debug = true;
+                    this.log("Slavunya debug mode enabled.")
+                }
             },
 
             log: function () {
