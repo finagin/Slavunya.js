@@ -1,6 +1,8 @@
 ;(function (window, document, undefined) {
     function Slavunya() {
-        var Cookies = new function Cookies() {
+        var debug   = false,
+            logs    = {},
+            Cookies = new function Cookies() {
                 this.__proto__ = {
                     __init: function () {
                         var ca = document.cookie.split(';'),
@@ -90,7 +92,7 @@
                     }
                 }
             };
-        
+
         this.__proto__ = {
             cookie: function (name, value, days, secure) {
                 return Cookies["__" + (value !== undefined ? "set" : "get")].apply(Cookies, arguments);
@@ -181,6 +183,28 @@
                         return returns[regExp](result);
                     }
                 }
+            },
+
+            get logs() {
+                return logs;
+            },
+
+            get debug() {
+                return debug;
+            },
+            set debug(val) {
+                debug = !!val;
+            },
+
+            log: function () {
+                if (debug) {
+                    console.log.apply(console, arguments);
+                }
+                var index = 0;
+                while (logs[+(new Date) + " " + index]) {
+                    index++;
+                }
+                logs[+(new Date) + " " + index] = arguments;
             }
         };
     }
