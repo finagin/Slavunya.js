@@ -124,7 +124,9 @@
                 function req(obj, def) {
                     for (var key in def) {
                         if (obj[key]) {
-                            req(obj[key], def[key]);
+                            if (typeof obj[key] == "object") {
+                                req(obj[key], def[key]);
+                            }
                         } else {
                             obj[key] = def[key];
                         }
