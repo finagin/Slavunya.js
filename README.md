@@ -1,9 +1,7 @@
 # Slavunya.js
 
 * [Install](#install)
-* Usage
-    * [regExp](#slavunyaregexptype-teststring)
-    * [getRGB](#slavunyagetrgbcolor)
+* [Usage](#usage)
     * [cookies](#slavunyacookiesname-value-days-secure)
     * [math](#slavunyamathnumber)
         * [in](#slavunyamathnumberinnumbers)
@@ -11,41 +9,29 @@
         * [right](#slavunyamathnumberrighta)
         * [declination](#slavunyamathnumberdeclinationwords)
     * [urlParams](#slavunyaurlparamsname)
+    * [defaults](#slavunyadefaultsobj-def)
+    * [getRGB](#slavunyagetrgbcolor)
 
 ## Install
-Add script ```//cdn.rawgit.com/finagin/Slavunya.js/master/dist/Slavunya.min.js``` to your code
+Add script ```//cdn.rawgit.com/finagin/Slavunya.js/v1.0.2/dist/Slavunya.min.js``` to your code
 ```html
 <body>
     <div class="content">...</div>
 
-    <script src="//cdn.rawgit.com/finagin/Slavunya.js/master/dist/Slavunya.min.js"></script>
+    <script src="//cdn.rawgit.com/finagin/Slavunya.js/v1.0.2/dist/Slavunya.min.js"></script>
     <script src="/main.min.js"></script>
 </body>
 ```
 ## Usage
-### Slavunya.regExp(type, [testString])
-```js
-> Slavunya.regExp("phone");
-< [
-       /^((?:\+7|8)\s*(?:\((\d{3})\)|(\d{3})))?\s*(\d{3}[\s-]?\d{2}[\s-]?\d{2})$/
-  ]
-```
-```js
-> Slavunya.regExp("phone", "+7 (843) 275-00-00");
-< ["+7 (843) 275-00-00", "+7 (843)", "843", null, "275-00-00"]
 
-> Slavunya.regExp("phone", "invalid");
-< undefined
-```
-### Slavunya.getRGB(color)
 ### Slavunya.cookies(name, [value, [days, [secure]]])
 ```js
-> Slavunya.cookies("page");
+> Slavunya.cookies("page")
 < 2
 
-> Slavunya.cookies("page", 3, 7);
+> Slavunya.cookies("page", 3, 7)
 < undefined
-> Slavunya.cookies("page");
+> Slavunya.cookies("page")
 < 3
 ```
 ### Slavunya.math(number)
@@ -57,7 +43,7 @@ Add script ```//cdn.rawgit.com/finagin/Slavunya.js/master/dist/Slavunya.min.js``
 > Slavunya.math(4).in(1,2,3)
 < false
 
-> Slavunya.math(2).in([1,2,3])
+> Slavunya.math(2).in([1, 2, 3])
 < true
 ```
 #### Slavunya.math(number).between(left, right)
@@ -102,4 +88,26 @@ Add script ```//cdn.rawgit.com/finagin/Slavunya.js/master/dist/Slavunya.min.js``
       guest: true,
       block: "about"
   }
+```
+### Slavunya.defaults(obj, def)
+```js
+> Slavunya.defaults({
+      name:"Igor",
+      age: 22,
+      city: "Kazan"
+  }, {
+      country: "Russia",
+      city: "Moscow"
+  })
+< {
+      name:"Igor",
+      age: 22,
+      country: "Russia",
+      city: "Kazan"
+  }
+```
+### Slavunya.getRGB(color)
+```js
+> Slavunya.getRGB("#E6AC0C")
+< [230, 172, 12]
 ```
