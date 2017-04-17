@@ -111,3 +111,12 @@ Add script ```//cdn.rawgit.com/finagin/Slavunya.js/v1.0.2/dist/Slavunya.min.js``
 > Slavunya.getRGB("#E6AC0C")
 < [230, 172, 12]
 ```
+
+### Slavunya.toCamelCase(str, [strict])
+```js
+> Slavunya.toCamelCase("to-camel-case")
+< toCamelCase
+
+> Slavunya.toCamelCase("TO-CAMEL-CASE", true)
+< toCamelCase
+```
