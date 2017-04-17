@@ -1,7 +1,7 @@
 ;(function (window, document, undefined) {
     function Slavunya() {
-        var debug   = false,
-            logs    = {},
+        var debug = false,
+            logs = {},
             Cookies = new function Cookies() {
                 this.__proto__ = {
                     __init: function () {
@@ -16,11 +16,11 @@
                             }
                         }
                     },
-                    __get:  function (name) {
+                    __get: function (name) {
                         this.__init();
                         return name ? this[name] || null : this;
                     },
-                    __set:  function (name, value, days, secure) {
+                    __set: function (name, value, days, secure) {
                         var expires,
                             domain,
                             locProtocol;
@@ -31,7 +31,7 @@
                             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1e3));
                             expires = '; expires=' + date.toGMTString();
                         }
-                        domain      = window.location.hostname;
+                        domain = window.location.hostname;
                         locProtocol = window.location.protocol;
 
                         document.cookie = (''
@@ -42,7 +42,7 @@
                     }
                 };
             },
-            Math    = function Math(number) {
+            Math = function Math(number) {
                 if (!(this instanceof Math)) {
                     return new Math(number);
                 }
@@ -68,7 +68,7 @@
 
                     "right": function (right) {
                         var wMath = window.Math,
-                            e     = wMath.pow(10, right || 1),
+                            e = wMath.pow(10, right || 1),
                             res;
 
                         res = number / e;
@@ -101,8 +101,8 @@
             math: Math,
 
             urlParams: function (name) {
-                var res      = {},
-                    loc      = location.href,
+                var res = {},
+                    loc = location.href,
                     startPos = loc.indexOf('?') != -1 ? loc.indexOf('?') : loc.indexOf('#') != -1 ? loc.indexOf('#') : false;
 
                 if (startPos !== false) {
@@ -123,7 +123,7 @@
             defaults: function (obj, def) {
                 function req(obj, def) {
                     for (var key in def) {
-                        if (obj[key]) {
+                        if (obj[key] !== undefined) {
                             if (typeof obj[key] == "object") {
                                 req(obj[key], def[key]);
                             }
@@ -185,6 +185,31 @@
                         return returns[regExp](result);
                     }
                 }
+            },
+
+            toCamelCase: function toCamelCase(str, strict) {
+                if (strict) {
+                    str = str.toLocaleLowerCase();
+                }
+
+                return str
+                    .split('-')
+                    .map(function (word, index) {
+                        if (index) {
+                            return word
+                                .split('')
+                                .map(function (char, index) {
+                                    if (!index) {
+                                        return char
+                                            .toLocaleUpperCase();
+                                    }
+                                    return char;
+                                })
+                                .join('');
+                        }
+                        return word;
+                    })
+                    .join('');
             },
 
             get logs() {
