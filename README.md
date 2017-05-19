@@ -13,12 +13,12 @@
     * [getRGB](#slavunyagetrgbcolor)
 
 ## Install
-Add script ```//cdn.rawgit.com/finagin/Slavunya.js/v1.1.1/dist/Slavunya.min.js``` to your code
+Add script ```//cdn.rawgit.com/finagin/Slavunya.js/v1.1.2/dist/Slavunya.min.js``` to your code
 ```html
 <body>
     <div class="content">...</div>
 
-    <script src="//cdn.rawgit.com/finagin/Slavunya.js/v1.1.1/dist/Slavunya.min.js"></script>
+    <script src="//cdn.rawgit.com/finagin/Slavunya.js/v1.1.2/dist/Slavunya.min.js"></script>
     <script src="/main.min.js"></script>
 </body>
 ```

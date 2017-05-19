@@ -141,7 +141,7 @@
             getRGB: function (color) {
                 var result,
                     returns = {
-                        "rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)": function (result) {
+                        "rgb\\(\\s*([0-9]{1,3})\\s*,\\s*([0-9]{1,3})\\s*,\\s*([0-9]{1,3})\\s*\\)": function (result) {
                             return [
                                 parseInt(result[1]),
                                 parseInt(result[2]),
@@ -149,7 +149,7 @@
                             ];
                         },
 
-                        "rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)": function (result) {
+                        "rgb\\(\\s*([0-9]+(?:\\.[0-9]+)?)\\%\\s*,\\s*([0-9]+(?:\\.[0-9]+)?)\\%\\s*,\\s*([0-9]+(?:\\.[0-9]+)?)\\%\\s*\\)": function (result) {
                             return [
                                 parseFloat(result[1]) * 2.55,
                                 parseFloat(result[2]) * 2.55,
